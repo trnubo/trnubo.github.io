@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script>
+function sha512crypt(password, salt) {
+  var hash = sha512crypt(password, salt);
+  return hash;
+}
+function randomSalt(length) {
+  var tab="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  var result = '';
+  for (var i = length; i > 0; --i) {
+    var buf = new Uint8Array(1);
+    window.crypto.getRandomValues(buf);
+    result += tab[parseInt(buf[0].toString(2).slice(0,6),2)];
+  }
+  return result;
+}
+function do_crypt() {
+  var password = document.forms["pwform"]["password"].value;
+  var password2 = document.forms["pwform"]["password2"].value;
+  if (password != password2) {
+    document.getElementById("pass_error").innerHTML = "passwords do not match";
+    document.getElementById("hash_p").innerHTML = 'None yet';
+    return false;
+  }
+  document.getElementById("pass_error").innerHTML = "";
+  var salt = randomSalt(16);
+  var hash = sha512crypt(password, salt);
+  document.getElementById("hash_p").innerHTML = hash;
+  return false;
+}
+function do_clear() {
+  document.getElementById("pwform").reset();
+  document.getElementById("hash_p").innerHTML = 'None yet';
+  document.getElementById("pass_error").innerHTML = "";
+  return false;
+}
+    </script>
+    <script src="sha512.js"></script>
+    <script src="sha512crypt.js"></script>
+
+  </head>
+
+  <body>
+
+    <h1>sha512crypt password</h1>
+
+    <form id="pwform" name="pwform" action="#" onsubmit="return false;">
+      <input type="password" name="password" placeholder="password"><br>
+      <input type="password" name="password2" placeholder="password again" onchange="do_crypt()">
+      <span id="pass_error" style="color:red"></span>
+    </form>
+
+    <p></p>
+
+    <div>Hash:
+      <pre><span id="hash_p">None yet</span></pre>
+    </div>
+
+    <p></p>
+    <button type="button" onclick="do_clear()">Clear</button>
+
+    <p>This is based on the sha512crypt implementation by mvo5. See https://github.com/mvo5/sha512crypt-node</p>
+
+  </body>
+</html> 
