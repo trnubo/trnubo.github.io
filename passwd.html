@@ -38,14 +38,18 @@ function do_clear() {
   return false;
 }
     </script>
-    <script src="sha512.js"></script>
-    <script src="sha512crypt.js"></script>
-
+    <script src="dist/sha512.js"></script>
+    <script src="dist/sha512crypt.js"></script>
+    <script src="dist/clipboard.min.js"></script>
   </head>
 
   <body>
 
     <h1>sha512crypt password</h1>
+
+    <p>This page will generate a sha512-crypt hash from a password all within the browser, no passwords or hashes are sent to a server.</p>
+
+    <p style="font-size: smaller"><span style="font-weight: bold">DISCALAIMER:</span> THE COPYRIGHT HOLDER DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE</p>
 
     <form id="pwform" name="pwform" action="#" onsubmit="return false;">
       <input type="password" name="password" placeholder="password"><br>
@@ -57,12 +61,29 @@ function do_clear() {
 
     <div>Hash:
       <pre><span id="hash_p">None yet</span></pre>
+      <button class="btn" data-clipboard-target="#hash_p">Copy to clipboard</button>
     </div>
 
     <p></p>
     <button type="button" onclick="do_clear()">Clear</button>
 
-    <p>This is based on the sha512crypt implementation by mvo5. See https://github.com/mvo5/sha512crypt-node</p>
+    <p>Credits: 
+      <ul>
+        <li>sha512crypt implementation by mvo5. See https://github.com/mvo5/sha512crypt-node</li>
+        <li>Copy to clipboard by https://clipboardjs.com/</li>
+        <li>The rest by https://github.com/trnubo</li>
+      </ul>
+    </p>
+
+    <script>
+    var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    </script>
 
   </body>
 </html> 
